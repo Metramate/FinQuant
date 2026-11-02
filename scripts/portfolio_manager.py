@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import json
 import pathlib
 import sys
 
@@ -256,80 +257,117 @@ def md_table(df: pd.DataFrame, fmt: dict | None = None) -> str:
     return "\n".join(lines)
 
 
-def recommend(risky, cash, book, rets, cov, rc, px, trades, cur, tgt, max_w, rf):
+def trim_test(t, w0, names, target_sleeve_w, rets, rf, cur):
+    """Effect of cutting ``t`` to ``target_sleeve_w`` (excess spread pro-rata). Returns (stats, passes)."""
+    i = names.index(t)
+    w = w0.copy()
+    excess = w[i] - target_sleeve_w
+    w[i] = target_sleeve_w
+    rest = np.arange(len(w)) != i
+    w[rest] += excess * w[rest] / w[rest].sum()
+    st = stats(w, rets, rf)
+    return st, (st["vol"] < cur["vol"] and st["ann_return"] >= cur["ann_return"])
+
+
+def recommend(risky, cash, book, rets, cov, rc, px, trades, cur, tgt, max_w, rf, bt=None):
+    """Aggressive-by-design advice. A trim is recommended ONLY if it lowers risk AND does not lower return
+    (in-sample test of that exact trim + the walk-forward backtest gate when available). Otherwise: keep."""
     recs = []  # (priority 1=high, headline, detail)
     risky_share = 1 - cash / book
     names = list(risky.index)
-    ratio = pd.Series(rc / risky["w_sleeve"].values, index=names)
+    w0 = risky["w_sleeve"].values
+    ratio = pd.Series(rc / w0, index=names)
+    bt = (bt or {}).get("verdict", {})
 
-    # 1. positions that carry far more risk than capital
-    hot = [(t, 100 * rc[names.index(t)], 100 * risky.loc[t, "w_sleeve"]) for t in names
-           if (ratio[t] > 1.5 and rc[names.index(t)] > 0.12) or rc[names.index(t)] > 0.20
+    def gate(rule):
+        v = bt.get(rule)
+        return None if v is None else v["passes_gate"]
+
+    # 1. big risk drivers: trim only if it passes BOTH tests
+    hot = [t for t in names if (ratio[t] > 1.5 and rc[names.index(t)] > 0.12) or rc[names.index(t)] > 0.20
            or risky.loc[t, "w_book"] > max_w]
-    for t, r_, w_ in sorted(hot, key=lambda x: -x[1]):
-        recs.append((1, f"Trim {t}: {w_:.0f}% of capital but {r_:.0f}% of portfolio risk",
-                     f"{t}'s volatility is {100*np.sqrt(cov[names.index(t), names.index(t)]):.0f}% a year"
-                     + (f" and it is above your {100*max_w:.0f}% single-asset cap. " if risky.loc[t, "w_book"] > max_w else ". ") +
-                     f"Moving to ~{100*trades.loc[t,'tgt_book']:.1f}% of the book still leaves it a core position "
-                     f"while removing the largest single source of drawdown."))
+    for t in sorted(hot, key=lambda x: -rc[names.index(x)]):
+        i = names.index(t)
+        tgt_w = trades.loc[t, "tgt_book"] / risky_share
+        st, ins_ok = trim_test(t, w0, names, tgt_w, rets, rf, cur)
+        is_crypto = risky.loc[t, "theme"] == "Crypto"
+        g = gate("crypto_cap_30" if is_crypto else "erc_blend")
+        facts = (f"{t} is {100*w0[i]:.0f}% of capital and {100*rc[i]:.0f}% of risk. Cutting it to "
+                 f"~{100*trades.loc[t,'tgt_book']:.1f}% of the book (excess spread pro-rata) moves vol {100*cur['vol']:.1f}% → "
+                 f"{100*st['vol']:.1f}% and return {100*cur['ann_return']:.1f}% → {100*st['ann_return']:.1f}% (in-sample)")
+        if ins_ok and g is not False:
+            recs.append((1, f"Trim {t}: lowers risk AND raises return in the tests",
+                         facts + (f"; walk-forward backtest gate: {'PASS' if g else 'not run'}. " if g is not None else ". ")
+                         + "Passes your rule, but both tests share one regime (crypto lagged), so size the trim to what you are comfortable with."))
+        else:
+            why = ("it would cost return in-sample" if not ins_ok and st["vol"] < cur["vol"] else
+                   "it would not lower risk" if not ins_ok else "the backtest gate failed")
+            recs.append((3, f"Keep {t} (aggressive by design): trimming fails your rule — {why}",
+                         facts + ". No action; this is a risk you are choosing."))
 
-    # 2. crypto sleeve
+    # 2. crypto sleeve: information, then a gated option
     crypto = [t for t in names if risky.loc[t, "theme"] == "Crypto"]
-    cw = risky.loc[crypto, "w_book"].sum()
-    crc = sum(rc[names.index(t)] for t in crypto)
+    cw, crc = risky.loc[crypto, "w_book"].sum(), sum(rc[names.index(t)] for t in crypto)
     small_crypto = [t for t in crypto if risky.loc[t, "w_book"] < 0.03]
-    recs.append((1 if crc > 0.4 else 2, f"Crypto is {100*cw:.0f}% of your book but {100*crc:.0f}% of the risk",
-                 "Treat it as one bet (BTC/ETH/UNI/NEAR move together). " + (
-                     f"{', '.join(small_crypto)} are <3% each: too small to matter for return, still adding alt-coin tail risk. "
-                     "Either consolidate into BTC/ETH or size them up deliberately." if small_crypto else "")))
+    g = gate("crypto_cap_30")
+    detail = "Know this number: it is your single biggest driver of drawdowns. "
+    if g is not None and "crypto_cap_30" in bt:
+        v = bt["crypto_cap_30"]
+        detail += (f"Capping crypto at 30% of the sleeve in the backtest changed vol {100*v['d_vol']:+.1f}pt and net CAGR "
+                   f"{100*v['d_cagr']:+.1f}pt vs holding the mix ({'passes' if g else 'fails'} your gate). ")
+    if small_crypto:
+        detail += (f"{', '.join(small_crypto)} are <3% each: too small to move return but they add alt-coin risk "
+                   "(optional tidy-up: fold into BTC/ETH, or size up on purpose).")
+    recs.append((2, f"Crypto is {100*cw:.0f}% of your book and {100*crc:.0f}% of the risk", detail))
 
-    # 3. hidden overlap in the AI-semis complex
+    # 3. AI / semis complex: accepted concentration
     ai = [t for t in names if risky.loc[t, "theme"] in ("Semis / AI", "Broad tech")]
-    aw = risky.loc[ai, "w_book"].sum()
-    arc = sum(rc[names.index(t)] for t in ai)
+    aw, arc = risky.loc[ai, "w_book"].sum(), sum(rc[names.index(t)] for t in ai)
     corr = rets[ai].corr().values
     avg = corr[np.triu_indices(len(ai), 1)].mean()
-    recs.append((1 if aw > 0.35 else 3, f"AI/semis/tech complex = {100*aw:.0f}% of book, {100*arc:.0f}% of risk "
-                 f"(avg pairwise correlation {avg:.2f})",
-                 f"{', '.join(ai)} are largely one trade, and QQQM and SMH already hold NVDA/semis. "
-                 "New money should go elsewhere before this grows; do not count these as diversification."))
+    recs.append((3, f"AI/semis/tech = {100*aw:.0f}% of book, {100*arc:.0f}% of risk (avg correlation {avg:.2f}): accepted concentration",
+                 f"{', '.join(ai)} are largely one trade (QQQM and SMH already hold NVDA/semis). No trim recommended; "
+                 "just know that a semis sell-off hits all five at once, and don't count them as diversification."))
 
-    # 4. what actually diversifies
+    # 4. what actually diversifies (for new money)
     others = [t for t in names if t not in ai and t not in crypto]
     avgc = rets.corr().apply(lambda col: (col.sum() - 1) / (len(col) - 1))
     div = avgc[others].sort_values().head(2)
-    recs.append((3, f"Best diversifiers: {', '.join(div.index)}",
-                 "Lowest average correlation to everything else ("
-                 + ", ".join(f"{k} {v:.2f}" for k, v in div.items())
-                 + "). If you add risk, add it here rather than to the AI/crypto blocks."))
+    recs.append((3, f"If you add risk, the best diversifiers you already own are {', '.join(div.index)}",
+                 "Lowest average correlation to everything else (" + ", ".join(f"{k} {v:.2f}" for k, v in div.items()) + ")."))
 
     # 5. cash
-    ann_vol = np.sqrt(cur["vol"] ** 2) * risky_share
-    recs.append((3, f"Cash {100*cash/book:.1f}% (${cash:,.0f}): keep as dry powder, deploy on weakness",
-                 f"Portfolio vol on the whole book is ~{100*ann_vol:.0f}% a year, so a 10% pullback in the "
-                 f"risky sleeve is a normal event, not a tail. Deploy in 3-4 tranches into the underweights in the rebalance list "
-                 f"rather than into names already above target. Cash earns ~{100*rf:.1f}% at my assumed risk-free rate."))
+    recs.append((3, f"Cash {100*cash/book:.1f}% (${cash:,.0f}): dry powder for new positions",
+                 f"At {100*cur['vol']*risky_share:.0f}% whole-book volatility a 10% pullback is a normal event. Deploy in tranches; "
+                 f"new cash (e.g. your planned 2-3% HOOD) avoids selling anything. Cash earns ~{100*rf:.1f}% at my assumed risk-free rate."))
 
-    # 6. trend / drawdown watch (1y)
+    # 6. drawdown watch
     one_y = px.iloc[-ANN:]
     dd = one_y.iloc[-1] / one_y.max() - 1
     deep = dd[dd < -0.20].sort_values()
     if len(deep):
-        recs.append((2, "Review thesis (>20% below 1-year high): " + ", ".join(f"{k} {100*v:.0f}%" for k, v in deep.items()),
-                     "A drawdown alone is not a sell signal. Write down why you own each; if the reason is gone, exit, "
-                     "otherwise this is where the cash tranches belong."))
+        recs.append((2, "Thesis check (>20% below 1-year high): " + ", ".join(f"{k} {100*v:.0f}%" for k, v in deep.items()),
+                     "A drawdown alone is not a sell signal. If the reason you bought is intact, these are candidates for new cash, not for selling."))
 
-    # 7. rebalance
+    # 7. full rebalance: optional, gated by the walk-forward backtest
+    g = gate("erc_blend")
     buys = trades[trades["trade_usd"] > 0].sort_values("trade_usd", ascending=False)
     sells = trades[trades["trade_usd"] < 0].sort_values("trade_usd")
     turn = trades["trade_usd"].abs().sum() / 2 / book
-    recs.append((1, f"Rebalance (≈{100*turn:.0f}% of book turnover): sell "
-                 + (", ".join(f"{k} ${-v:,.0f}" for k, v in sells["trade_usd"].items()) or "nothing")
-                 + "; buy "
-                 + (", ".join(f"{k} ${v:,.0f}" for k, v in buys["trade_usd"].items()) or "nothing"),
-                 f"Gets halfway to equal-risk weights: vol {100*cur['vol']:.1f}% → {100*tgt['vol']:.1f}%, "
-                 f"worst drawdown {100*cur['max_dd']:.0f}% → {100*tgt['max_dd']:.0f}% (in-sample), "
-                 f"cap {100*max_w:.0f}% per asset. Buys are mechanical (low-risk assets get more weight): only buy what you'd want to own anyway. Check tax/fees before selling; use new cash first where possible."))
+    trade_txt = ("sell " + (", ".join(f"{k} ${-v:,.0f}" for k, v in sells["trade_usd"].items()) or "nothing")
+                 + "; buy " + (", ".join(f"{k} ${v:,.0f}" for k, v in buys["trade_usd"].items()) or "nothing"))
+    effect = (f"in-sample vol {100*cur['vol']:.1f}% → {100*tgt['vol']:.1f}%, return {100*cur['ann_return']:.1f}% → {100*tgt['ann_return']:.1f}%")
+    if g is None:
+        recs.append((2, f"Optional risk-balanced rebalance (~{100*turn:.0f}% turnover): {trade_txt}",
+                     effect + ". Run scripts/backtest.py to test it before acting."))
+    elif g and tgt["vol"] < cur["vol"] and tgt["ann_return"] >= cur["ann_return"]:
+        v = bt["erc_blend"]
+        recs.append((1, f"Optional rebalance passes your rule (~{100*turn:.0f}% turnover): {trade_txt}",
+                     f"{effect}. Walk-forward, net of costs, monthly: vol {100*v['d_vol']:+.1f}pt and CAGR {100*v['d_cagr']:+.1f}pt "
+                     "vs holding the mix, in both halves. Caveat: one window where crypto lagged; do it gradually with new cash first."))
+    else:
+        recs.append((3, "Skip the full rebalance: it does not lower risk AND raise return in the tests",
+                     effect + ". Keep the portfolio as is."))
     return sorted(recs, key=lambda r: r[0])
 
 
@@ -374,6 +412,7 @@ def main():
     trades = pd.DataFrame({"now_book": risky["w_book"], "tgt_book": tgt_book, "trade_usd": delta})
     tgt_after = (risky["value"] + delta) / book
     trades["tgt_book"] = tgt_after  # weight after the (banded) trades
+    (out / "trades.json").write_text(json.dumps({k: float(v) for k, v in trades["trade_usd"].items() if v}, indent=1))
 
     # robustness: fit risk-parity on 1st half, evaluate on 2nd
     h = len(rets) // 2
@@ -390,7 +429,9 @@ def main():
     fig_frontier(shrunk, cov, ports, out / "05_risk_return_map.png")
     fig_trades(trades, out / "06_rebalance.png")
 
-    recs = recommend(risky, cash, book, rets, cov, rc, px, trades, st["Current"], st["Suggested target"], args.max_weight, args.rf)
+    bt_file = out / "backtest.json"
+    bt = json.loads(bt_file.read_text()) if bt_file.exists() else None
+    recs = recommend(risky, cash, book, rets, cov, rc, px, trades, st["Current"], st["Suggested target"], args.max_weight, args.rf, bt)
 
     # report
     today = dt.date.today().isoformat()
@@ -410,8 +451,14 @@ def main():
         f"Book **${book:,.0f}** (risky ${book-cash:,.0f} + cash ${cash:,.0f}). Window {px.index[0].date()} → {px.index[-1].date()} "
         f"({len(rets)} trading days). Beta to QQQM {beta:.2f}.",
         "",
+        "_Policy: your portfolio is aggressive on purpose. A trim is recommended only if it lowers risk AND does not lower return "
+        "(in-sample test of that trim + walk-forward backtest). Everything else is reported as a risk you are choosing._",
+        "",
         "## Recommendations (most important first)",
         *[f"{i}. **{h}**  \n   {d}" for i, (_, h, d) in enumerate(recs, 1)],
+        "",
+        "See also: [check-in & alerts](checkin.md) · [stress tests](stress.md) · [signals](signals.md) · [backtest](backtest.md) · "
+        "[FinQuant optimiser](fq_optimise.md) · [watchlist](watchlist.md) · [tax lots](tax_lots.md)",
         "",
         "## Charts",
         *[f"![{p.stem}]({p.name})" for p in sorted(out.glob("*.png"))],

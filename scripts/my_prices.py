@@ -15,6 +15,11 @@ How the splice works (an approximation, so it is reported by ``fetch_prices``):
 """
 from __future__ import annotations
 
+import datetime as dt
+import hashlib
+import os
+import pathlib
+
 import pandas as pd
 import yfinance as yf
 
@@ -44,7 +49,23 @@ def splice_proxy(real: pd.Series, proxy_usd: pd.Series, calendar: pd.DatetimeInd
     return out.rename(real.name)
 
 
+CACHE_DIR = pathlib.Path(__file__).resolve().parent.parent / ".cache" / "prices"
+
+
 def fetch_prices(holdings: pd.DataFrame, start: str = "2024-01-01") -> pd.DataFrame:
+    """Same-day cached wrapper around ``_fetch_prices`` (set PM_NO_CACHE=1 to force a refresh)."""
+    cols = [c for c in ("yahoo_ticker", "history_proxy") if c in holdings]
+    key = hashlib.md5((start + dt.date.today().isoformat() + holdings[cols].astype(str).to_csv()).encode()).hexdigest()[:16]
+    f = CACHE_DIR / f"{key}.pkl"
+    if f.exists() and not os.environ.get("PM_NO_CACHE"):
+        return pd.read_pickle(f)
+    out = _fetch_prices(holdings, start)
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    out.to_pickle(f)
+    return out
+
+
+def _fetch_prices(holdings: pd.DataFrame, start: str = "2024-01-01") -> pd.DataFrame:
     """Prices (one column per ``yahoo_ticker``) with proxy-extended history where configured."""
     rows = holdings.dropna(subset=["yahoo_ticker"])
     tickers = rows["yahoo_ticker"].tolist()
