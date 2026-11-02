@@ -1,16 +1,16 @@
-ticker,yahoo_ticker,asset_class,quantity,avg_price_usd,cost_usd,weight_pct
-BTC,BTC-USD,crypto,0.0308255,77436,2387,21.9
-ETH,ETH-USD,crypto,0.433592,2253.27,977,9.0
-UNI,UNI7083-USD,crypto,30.6065,7.09,217,2.0
-NEAR,NEAR-USD,crypto,48.9842,4.43,217,2.0
-QQQM,QQQM,etf,5.72554,284.34,1628,15.0
-SMH,SMH,etf,2.07659,522.49,1085,10.0
-NVDA,NVDA,stock,2.65344,204.64,543,5.0
-SKHY,SKHY,stock,3.63917,149.21,543,5.0
-VST,VST,stock,3.92426,138.37,543,5.0
-LLY,LLY,stock,0.306164,1417.54,434,4.0
-ITA,ITA,etf,2.06923,209.74,434,4.0
-NLR,NLR,etf,3.55313,91.75,326,3.0
-QTUM,QTUM,etf,2.43593,133.83,326,3.0
-UFO,UFO,etf,5.39264,40.24,217,2.0
-USDT,,cash,1007,1,1007,9.3
+ticker,yahoo_ticker,asset_class,quantity,avg_price_usd,cost_usd,weight_pct,theme,history_proxy
+BTC,BTC-USD,crypto,0.0308255,77436.0,2387,21.9,Crypto,
+ETH,ETH-USD,crypto,0.433592,2253.27,977,9.0,Crypto,
+UNI,UNI7083-USD,crypto,30.6065,7.09,217,2.0,Crypto,
+NEAR,NEAR-USD,crypto,48.9842,4.43,217,2.0,Crypto,
+QQQM,QQQM,etf,5.72554,284.34,1628,15.0,Broad tech,
+SMH,SMH,etf,2.07659,522.49,1085,10.0,Semis / AI,
+NVDA,NVDA,stock,2.65344,204.64,543,5.0,Semis / AI,
+SKHY,SKHY,stock,3.63917,149.21,543,5.0,Semis / AI,000660.KS
+VST,VST,stock,3.92426,138.37,543,5.0,Power / nuclear,
+LLY,LLY,stock,0.306164,1417.54,434,4.0,Healthcare,
+ITA,ITA,etf,2.06923,209.74,434,4.0,Aerospace & defense,
+NLR,NLR,etf,3.55313,91.75,326,3.0,Power / nuclear,
+QTUM,QTUM,etf,2.43593,133.83,326,3.0,Semis / AI,
+UFO,UFO,etf,5.39264,40.24,217,2.0,Space,
+USDT,,cash,1007.0,1.0,1007,9.3,Cash,

@@ -9,6 +9,9 @@ Two distinct things live in the holdings file and are kept separate here:
 Cash (USDT) has no price history, so it is excluded from the FinQuant
 portfolio but reported in the summary so totals still reconcile.
 
+Prices come from ``my_prices.fetch_prices``. For charts + recommendations run
+``portfolio_manager.py`` instead.
+
 Usage:
     python scripts/load_my_portfolio.py                 # cost-basis weights, offline summary
     python scripts/load_my_portfolio.py --fetch         # also pull prices via yfinance + analyse
@@ -18,6 +21,8 @@ import argparse
 import pathlib
 
 import pandas as pd
+
+from my_prices import fetch_prices
 
 HOLDINGS = pathlib.Path(__file__).resolve().parent.parent / "data" / "my-portfolio.csv"
 
@@ -83,15 +88,9 @@ def main():
 
     from finquant.portfolio import build_portfolio
 
-    # Last close per ticker for valuation (first pass with cost weights to get prices).
+    # Prices incl. proxy-extended history (e.g. SKHY <- SK hynix on the Korea exchange).
     alloc = finquant_allocation(df)
-    pf = build_portfolio(
-        names=alloc["Name"].tolist(),
-        pf_allocation=alloc,
-        start_date=args.start,
-        data_api="yfinance",
-    )
-    prices = pf.data
+    prices = fetch_prices(df, args.start)[alloc["Name"].tolist()]
     last = prices.ffill().iloc[-1]
     print(summary(df, last).round(2).to_string(index=False))
 
