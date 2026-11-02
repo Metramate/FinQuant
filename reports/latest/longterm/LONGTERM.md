@@ -1,3 +1,5 @@
+> **SUPERSEDED.** This file assumed a 37-year horizon (goal at age 63). Your goal is age 35-40; see `reports/latest/horizon/HORIZON.md`.
+
 # Long-horizon research: reaching EUR 1M (today's money) by ~63
 
 Self-test: simulator = closed-form annuity formula (EUR 588,121 for 1,000/mo, 5% real, 25y). OK.

@@ -15,7 +15,8 @@ Start with `reports/latest/REPORT.md`; every script also runs alone.
 | `checkin.py` | dated snapshot in `reports/history/`, change since last run, alerts from `data/pm_rules.json` (max weights, drift vs plan, theme risk, 5-day moves, oversold) |
 | `tax_lots.py` | tax estimate for suggested sells from `data/my-lots.csv` (`--init` creates it); loss-harvest candidates |
 | `compounders.py` | glass cannon vs steady compounders (V, MA, ...): facts, rolling 4-year holds, EUR 1,000 simulation, 'what you must believe' heatmap (`reports/latest/compounders/`) |
-| `longterm.py` + `longterm_data.py` | **long-horizon savings research** on 100 years of US data (Ken French + Shiller): where EUR 1M comes from, 37-year journeys for ~12 strategies, walk-forward out-of-sample tests, era split, income-vs-tech-cycle test, suggested split (`reports/latest/longterm/`) |
+| `horizon.py` | **goal age 35-40 research (current)**: EUR 1M (today's money) from job-based savings plans, 100 years of data, bootstrap, walk-forward, tech dial, income link (`reports/latest/horizon/`) |
+| `longterm.py` + `longterm_data.py` | (superseded: assumed a 37-year horizon) long-horizon savings research on 100 years of US data (Ken French + Shiller): where EUR 1M comes from, 37-year journeys for ~12 strategies, walk-forward out-of-sample tests, era split, income-vs-tech-cycle test, suggested split (`reports/latest/longterm/`) |
 | `my_prices.py` | shared Yahoo loader; extends young listings with `history_proxy` (SKHY <- `000660.KS`) |
 | `load_my_portfolio.py` | quick FinQuant summary (`--fetch`) |
 
