@@ -37,6 +37,18 @@ import pandas as pd
 # pylint: disable=C0302,R0904,,R0912,W0212
 
 
+def _dtype_matches(dtype: Any, element_type: Any) -> bool:
+    """Checks whether ``dtype`` is (a subtype of) ``element_type``.
+
+    Comparing a dtype to an abstract numpy type (e.g. ``np.floating``) with ``==``
+    is not reliable across numpy versions (it fails on numpy>=2.3), hence
+    ``np.issubdtype`` is used."""
+    try:
+        return bool(np.issubdtype(dtype, element_type))
+    except TypeError:
+        return False
+
+
 def _check_type(
     arg_name: str,
     arg_values: Any,
@@ -64,12 +76,14 @@ def _check_type(
 
     if element_type is not None:
         if isinstance(arg_values, pd.DataFrame) and not all(
-            arg_values.dtypes == element_type
+            _dtype_matches(dtype, element_type) for dtype in arg_values.dtypes
         ):
             validation_failed = True
 
         if isinstance(arg_values, np.ndarray):
-            if arg_values.ndim == 2 and not arg_values.dtype == element_type:
+            if arg_values.ndim == 2 and not _dtype_matches(
+                arg_values.dtype, element_type
+            ):
                 validation_failed = True
             elif arg_values.ndim == 1 and not all(
                 isinstance(val, element_type) for val in arg_values

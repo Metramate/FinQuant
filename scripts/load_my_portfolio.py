@@ -61,6 +61,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--fetch", action="store_true", help="download prices from Yahoo and analyse")
     ap.add_argument("--start", default="2024-01-01")
+    ap.add_argument(
+        "--min-coverage",
+        type=float,
+        default=0.8,
+        help="assets with a smaller share of price history than this are valued but "
+        "left out of the risk analytics (default 0.8)",
+    )
     args = ap.parse_args()
 
     df = load_holdings()
@@ -84,12 +91,30 @@ def main():
         start_date=args.start,
         data_api="yfinance",
     )
-    last = pf.data.ffill().iloc[-1]
+    prices = pf.data
+    last = prices.ffill().iloc[-1]
     print(summary(df, last).round(2).to_string(index=False))
 
+    # Crypto trades 7 days a week, equities/ETFs ~5: drop days on which most assets have
+    # no quote (weekends/holidays), otherwise NaNs poison downside risk and Sortino.
+    prices = prices[prices.notna().mean(axis=1) >= 0.5]
+    coverage = prices.notna().mean()
+    short = coverage[coverage < args.min_coverage].index.tolist()
+    if short:
+        print(
+            f"\nNOTE: {short} have <{args.min_coverage:.0%} price history since {args.start}; "
+            "valued above but excluded from the risk analytics below "
+            "(use --min-coverage 0 to truncate everything to their shorter window instead)."
+        )
+    prices = prices.drop(columns=short)
+    prices = prices.dropna()
+
     # Re-weight FinQuant portfolio to *current market value* so analytics reflect today's book.
-    live = finquant_allocation(df, df.set_index("yahoo_ticker")["quantity"] * last)
-    pf = build_portfolio(data=pf.data, pf_allocation=live)
+    values = df.set_index("yahoo_ticker")["quantity"] * last
+    live = finquant_allocation(df, values)
+    live = live[live["Name"].isin(prices.columns)].reset_index(drop=True)
+    live["Allocation"] = 100 * live["Allocation"] / live["Allocation"].sum()
+    pf = build_portfolio(data=prices, pf_allocation=live)
     pf.properties()
 
 

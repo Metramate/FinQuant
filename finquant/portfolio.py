@@ -940,7 +940,13 @@ def _yfinance_request(
     # unlike quandl, yfinance does not have a prefix in front of the ticker
     # thus we do not need to correct them
     try:
-        resp: pd.DataFrame = yfinance.download(names, start=start_date, end=end_date)
+        resp: pd.DataFrame = yfinance.download(
+            names,
+            start=start_date,
+            end=end_date,
+            auto_adjust=False,  # newer yfinance defaults to True, dropping "Adj Close"
+            progress=False,
+        )
         if not isinstance(resp.columns, pd.MultiIndex) and len(names) > 0:
             # for single stock must make the dataframe multiindex
             stock_tuples = [(col, names[0]) for col in list(resp.columns)]
@@ -1212,7 +1218,7 @@ def _build_portfolio_from_df(
     # Enforcing types for pf_allocation:
     pf_allocation = pf_allocation.astype({"Allocation": np.float64, "Name": str})
     # make sure stock names are in data dataframe
-    if not _stocknames_in_data_columns(pf_allocation.Name.values, data):
+    if not _stocknames_in_data_columns(pf_allocation.Name.to_numpy(), data):
         raise ValueError(
             "Error: None of the provided stock names were"
             + "found in the provided dataframe."
@@ -1221,7 +1227,7 @@ def _build_portfolio_from_df(
     data = data.astype(np.float64)
     # extract only "Adjusted Close" price column from DataFrame:
     # in quandl: "Adj. Close"; in yfinance: "Adj Close"
-    data = _get_stocks_data_columns(data, pf_allocation.Name.values, data_columns)
+    data = _get_stocks_data_columns(data, pf_allocation.Name.to_numpy(), data_columns)
 
     # building portfolio:
     pf: Portfolio = Portfolio()
