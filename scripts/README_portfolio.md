@@ -14,6 +14,8 @@ Start with `reports/latest/REPORT.md`; every script also runs alone.
 | `what_if.py` | one ticker at X% of the book (`--fund new/prorata/cash`) |
 | `checkin.py` | dated snapshot in `reports/history/`, change since last run, alerts from `data/pm_rules.json` (max weights, drift vs plan, theme risk, 5-day moves, oversold) |
 | `tax_lots.py` | tax estimate for suggested sells from `data/my-lots.csv` (`--init` creates it); loss-harvest candidates |
+| `compounders.py` | glass cannon vs steady compounders (V, MA, ...): facts, rolling 4-year holds, EUR 1,000 simulation, 'what you must believe' heatmap (`reports/latest/compounders/`) |
+| `longterm.py` + `longterm_data.py` | **long-horizon savings research** on 100 years of US data (Ken French + Shiller): where EUR 1M comes from, 37-year journeys for ~12 strategies, walk-forward out-of-sample tests, era split, income-vs-tech-cycle test, suggested split (`reports/latest/longterm/`) |
 | `my_prices.py` | shared Yahoo loader; extends young listings with `history_proxy` (SKHY <- `000660.KS`) |
 | `load_my_portfolio.py` | quick FinQuant summary (`--fetch`) |
 
