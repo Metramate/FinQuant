@@ -6,6 +6,7 @@
 Funding modes (percent = share of the WHOLE book):
   prorata (default): sell all existing risky holdings proportionally, cash unchanged
   cash             : pay from the cash line (limited to the cash you hold)
+  new              : brand-new money; existing $ amounts unchanged, so every old weight shrinks by (1 - x)
 
 Everything is in-sample, current weights held constant, history since --start (same caveats as
 portfolio_manager.py). Cash is assumed to earn ``--rf``. Writes reports/latest/what_if_<TICKER>.{md,png}.
@@ -49,7 +50,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--ticker", default="HOOD")
     ap.add_argument("--pcts", type=float, nargs="+", default=[2, 5, 10])
-    ap.add_argument("--fund", choices=["prorata", "cash"], default="prorata")
+    ap.add_argument("--fund", choices=["prorata", "cash", "new"], default="prorata")
     ap.add_argument("--start", default="2024-01-01")
     ap.add_argument("--rf", type=float, default=0.04)
     ap.add_argument("--out", default=str(pathlib.Path(__file__).resolve().parent.parent / "reports" / "latest"))
@@ -74,6 +75,9 @@ def main():
         cw = cash_w
         if a.fund == "prorata":
             w[others] = base[others] * (1 - cash_w - x) / (1 - cash_w)
+        elif a.fund == "new":
+            w[others] = base[others] * (1 - x)
+            cw = cash_w * (1 - x)
         else:
             if x > cash_w:
                 print(f"[skip] {pct}% exceeds cash ({100*cash_w:.1f}%) in --fund cash")
