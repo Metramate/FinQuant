@@ -26,11 +26,11 @@
   "VEU": "world"
  },
  "risk_budget_pct": {
-  "crypto": 33,
-  "ai_tech": 31,
-  "other_thesis": 30,
+  "crypto": 31,
+  "ai_tech": 30,
+  "other_thesis": 29,
   "steady": 5,
-  "world": 1
+  "world": 5
  },
  "within_sleeve_pct": {
   "crypto": {
@@ -87,11 +87,17 @@
    "other_thesis": 29,
    "steady": 5,
    "world": 5
+  },
+  "aggressive_world": {
+   "crypto": 31,
+   "ai_tech": 30,
+   "other_thesis": 29,
+   "steady": 5,
+   "world": 5
   }
  },
- "active_preset": "aggressive",
+ "active_preset": "aggressive_world",
  "exclude": [
-  "WORLD",
   "VEU"
  ],
  "sleeve_max_pct": {

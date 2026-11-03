@@ -137,9 +137,9 @@
    "theme": "Steady compounders"
   },
   "WORLD": {
-   "yahoo": "VWCE.DE",
+   "yahoo": "VT",
    "asset_class": "etf",
-   "theme": "World fund"
+   "theme": "World fund (VT)"
   },
   "GEV": {
    "yahoo": "GEV",

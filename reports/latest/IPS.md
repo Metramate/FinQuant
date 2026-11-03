@@ -16,9 +16,9 @@ Written down so decisions are made by rules, not by mood. Numbers come from `scr
 
 ## 3. Risk policy
 - Accepts drawdowns of 40-50% in the worst cases (e.g. a dot-com-style shock hits the plan for about -53 to -57% of the book; the old pro-rata approach about -62%).
-- **Sleeve risk budgets** (share of total portfolio risk): crypto 33%, AI/semis/tech 31%, other thesis 30%, steady compounders 5%, world fund 1% (excluded).
+- **Sleeve risk budgets** (share of total portfolio risk): crypto 31%, AI/semis/tech 30%, other thesis 29%, steady compounders 5%, world fund (VT) 5%.
 - **Position caps** (max % of invested money in one holding): crypto 15, AI/tech 12, other thesis 6, steady 8; **no-sell floors** override a cap.
-- **Sleeve ranges (% of whole book):** crypto 10-22 (hard max 25), AI/semis/tech 20-32, other thesis 25-40, steady 10-18, cash 2-8. HOOD max 4%.
+- **Sleeve ranges (% of whole book):** crypto 10-22 (hard max 25), AI/semis/tech 20-32, other thesis 25-40, steady 10-18, world fund 4-10, cash 2-8. HOOD max 4%.
 - Today's book is outside the ranges (crypto 35%, AI/tech 38%, no steady names). It is brought inside by new money only.
 
 ## 4. How the weights are built (and why I trust it only this far)
@@ -27,13 +27,13 @@ Written down so decisions are made by rules, not by mood. Numbers come from `scr
 
 | Method | CAGR | Vol | Sharpe | Worst drop |
 |---|---|---|---|---|
-| Hand-set weights (my first plan) | 27.4% | 25.6% | 0.95 | -37.3% |
-| **Risk budgets + caps (used)** | 27.0% | 22.7% | 1.06 | -30.3% |
-| Equal risk contribution | 25.0% | 20.4% | 1.08 | -23.7% |
-| FinQuant max-Sharpe (cap 15%) | 28.3% | 20.5% | 1.23 | -24.2% |
-| Equal weight | 26.5% | 27.0% | 0.87 | -33.5% |
+| Hand-set weights (my first plan) | 26.2% | 24.8% | 0.94 | -36.6% |
+| **Risk budgets + caps (used)** | 25.7% | 22.0% | 1.04 | -29.9% |
+| Equal risk contribution | 24.0% | 20.1% | 1.05 | -23.9% |
+| FinQuant max-Sharpe (cap 15%) | 27.9% | 20.2% | 1.23 | -23.1% |
+| Equal weight | 25.7% | 26.3% | 0.86 | -33.1% |
 
-- Max-Sharpe scores best but is **not used**: the 22 names were picked with hindsight (winners), which flatters any method that chases recent winners, it trades about twice as much (99% a year), and in my 100-year test optimisers lost to simple rules. Risk-based construction kept about the same return as my hand-set weights with clearly lower risk (volatility -2.9 pts, worst drop -7 pts); an earlier run showed the same pattern for lookbacks of 504, 756 and 1008 days.
+- Max-Sharpe scores best but is **not used**: the 22 names were picked with hindsight (winners), which flatters any method that chases recent winners, it trades about twice as much (109% a year), and in my 100-year test optimisers lost to simple rules. Risk-based construction gave up about half a point of yearly return versus my hand-set weights for clearly lower risk (volatility -2.8 pts, worst drop -7 pts); an earlier run showed the same pattern for lookbacks of 504, 756 and 1008 days.
 - Limits: one AI/crypto boom plus the 2022 bear; 22 hindsight-picked names; covariance is estimated; risk budgets are my policy choices.
 
 ## 5. Implementation rules
