@@ -1,0 +1,96 @@
+{
+ "_comment": "Investment policy parameters used by scripts/construct.py. These are POLICY CHOICES (mine, as a starting point, edit them): risk budgets say how much of total portfolio RISK each sleeve may carry; caps are per-position limits in % of invested money.",
+ "sleeves": {
+  "BTC": "crypto",
+  "ETH": "crypto",
+  "UNI": "crypto",
+  "NEAR": "crypto",
+  "QQQM": "ai_tech",
+  "SMH": "ai_tech",
+  "NVDA": "ai_tech",
+  "SKHY": "ai_tech",
+  "QTUM": "ai_tech",
+  "VST": "other_thesis",
+  "ITA": "other_thesis",
+  "NLR": "other_thesis",
+  "UFO": "other_thesis",
+  "LLY": "other_thesis",
+  "HOOD": "other_thesis",
+  "GEV": "other_thesis",
+  "PICK": "other_thesis",
+  "INDA": "other_thesis",
+  "CRSP": "other_thesis",
+  "V": "steady",
+  "MA": "steady",
+  "WORLD": "world"
+ },
+ "risk_budget_pct": {
+  "crypto": 33,
+  "ai_tech": 31,
+  "other_thesis": 30,
+  "steady": 5,
+  "world": 1
+ },
+ "within_sleeve_pct": {
+  "crypto": {
+   "BTC": 50,
+   "ETH": 30,
+   "UNI": 10,
+   "NEAR": 10
+  },
+  "ai_tech": {
+   "QQQM": 25,
+   "SMH": 20,
+   "NVDA": 20,
+   "SKHY": 20,
+   "QTUM": 15
+  }
+ },
+ "single_max_pct": 15,
+ "single_min_pct": 1.0,
+ "cash_pct": 5,
+ "stage_book_end_eur": {
+  "A": 20000,
+  "B": 30000,
+  "C": 45000
+ },
+ "proxies": {
+  "QQQM": "QQQ",
+  "WORLD": "VT"
+ },
+ "presets": {
+  "balanced": {
+   "crypto": 28,
+   "ai_tech": 28,
+   "other_thesis": 30,
+   "steady": 9,
+   "world": 5
+  },
+  "aggressive": {
+   "crypto": 33,
+   "ai_tech": 31,
+   "other_thesis": 30,
+   "steady": 5,
+   "world": 1
+  },
+  "max_conviction": {
+   "crypto": 36,
+   "ai_tech": 32,
+   "other_thesis": 28,
+   "steady": 3,
+   "world": 1
+  }
+ },
+ "active_preset": "aggressive",
+ "exclude": [
+  "WORLD"
+ ],
+ "sleeve_max_pct": {
+  "crypto": 15,
+  "ai_tech": 12,
+  "other_thesis": 6,
+  "steady": 8,
+  "world": 0
+ },
+ "_note_caps": "sleeve_max_pct = max % of invested money in ONE position of that sleeve (a no-sell floor can override it). 'exclude' removes positions from the optimiser."
+}

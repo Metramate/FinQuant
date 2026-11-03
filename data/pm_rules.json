@@ -1,9 +1,23 @@
 {
-  "_comment": "Alert rules for scripts/checkin.py. Values are my starting assumptions: edit freely. Weights are % of the whole book.",
-  "max_weight_pct": {"default": 25, "HOOD": 5, "BTC": 25},
-  "drift_vs_plan": {"relative": 0.25, "min_abs_pct_points": 1.0},
-  "theme_max_risk_share_pct": {"Crypto": 60, "Semis / AI": 40},
-  "move_alerts": {"drop_5d_pct": -10, "rise_5d_pct": 15},
-  "oversold_rsi": 30,
-  "book_vol_max_pct": 35
+ "_comment": "Alert rules for scripts/checkin.py. Values are my starting assumptions: edit freely. Weights are % of the whole book.",
+ "max_weight_pct": {
+  "default": 15,
+  "BTC": 25,
+  "HOOD": 4,
+  "_note": "BTC 25 = legacy exception until diluted below 15"
+ },
+ "drift_vs_plan": {
+  "relative": 0.25,
+  "min_abs_pct_points": 1.0
+ },
+ "theme_max_risk_share_pct": {
+  "Crypto": 45,
+  "Semis / AI": 40
+ },
+ "move_alerts": {
+  "drop_5d_pct": -10,
+  "rise_5d_pct": 15
+ },
+ "oversold_rsi": 30,
+ "book_vol_max_pct": 35
 }

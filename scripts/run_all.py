@@ -13,7 +13,8 @@ import sys
 import time
 
 HERE = pathlib.Path(__file__).resolve().parent
-STEPS = ["backtest", "portfolio_manager", "stress", "signals", "fq_optimise", "watchlist", "checkin", "tax_lots"]
+STEP_ARGS = {"construct": ["--validate", "--build"], "monthly_plan": ["--monthly-eur", "1000", "--simulate", "36", "--report"]}
+STEPS = ["construct", "backtest", "portfolio_manager", "monthly_plan", "stress", "signals", "fq_optimise", "watchlist", "checkin", "tax_lots"]
 
 
 def main():
@@ -28,7 +29,7 @@ def main():
             print("[skip] tax_lots: run `python scripts/tax_lots.py --init` once to create data/my-lots.csv")
             continue
         t = time.time()
-        r = subprocess.run([sys.executable, "-W", "ignore", str(HERE / f"{step}.py")], capture_output=True, text=True)
+        r = subprocess.run([sys.executable, "-W", "ignore", str(HERE / f"{step}.py"), *STEP_ARGS.get(step, [])], capture_output=True, text=True)
         ok = r.returncode == 0
         print(f"[{'ok' if ok else 'FAILED'}] {step} ({time.time() - t:.0f}s)")
         if not ok:

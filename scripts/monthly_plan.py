@@ -34,7 +34,7 @@ from my_prices import fetch_prices  # noqa: E402
 from portfolio_manager import ANN, md_table, risk_contrib, stats  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-TARGETS = ROOT / "data" / "targets.json"
+TARGETS = ROOT / "data" / "targets_optimised.json"  # from scripts/construct.py; the hand-set file is data/targets.json (use --targets)
 SLEEVE_COLORS = ["#f2a900", "#7b4fd3", "#4c78a8", "#2a9d8f", "#264653", "#c7d2de"]
 
 
@@ -100,6 +100,7 @@ def main():
     ap.add_argument("--monthly-eur", type=float, default=1000.0)
     ap.add_argument("--max-buys", type=int, default=5)
     ap.add_argument("--min-buy-eur", type=float, default=60.0)
+    ap.add_argument("--targets", default=str(TARGETS), help="targets JSON (default: optimised by construct.py)")
     ap.add_argument("--holdings", default=str(HOLDINGS), help="holdings CSV to read (and to write with --apply)")
     ap.add_argument("--apply", action="store_true")
     ap.add_argument("--simulate", type=int, default=0, help="months to simulate")
@@ -108,7 +109,7 @@ def main():
     a = ap.parse_args()
     out = pathlib.Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    targets = json.loads(TARGETS.read_text())
+    targets = json.loads(pathlib.Path(a.targets).read_text())
     df = load_holdings(pathlib.Path(a.holdings))
     df_ext = extended_holdings(df, targets)
     fx = eurusd()
