@@ -14,7 +14,7 @@
   "ITA": "other_thesis",
   "NLR": "other_thesis",
   "UFO": "other_thesis",
-  "LLY": "other_thesis",
+  "LLY": "steady",
   "HOOD": "other_thesis",
   "GEV": "other_thesis",
   "PICK": "other_thesis",
@@ -23,14 +23,15 @@
   "V": "steady",
   "MA": "steady",
   "WORLD": "world",
-  "VEU": "world"
+  "VEU": "world",
+  "COST": "steady"
  },
  "risk_budget_pct": {
-  "crypto": 31,
-  "ai_tech": 30,
-  "other_thesis": 29,
-  "steady": 5,
-  "world": 5
+  "crypto": 30,
+  "ai_tech": 28,
+  "other_thesis": 27,
+  "steady": 15,
+  "world": 0
  },
  "within_sleeve_pct": {
   "crypto": {
@@ -94,11 +95,20 @@
    "other_thesis": 29,
    "steady": 5,
    "world": 5
+  },
+  "aggressive_steady": {
+   "crypto": 30,
+   "ai_tech": 28,
+   "other_thesis": 27,
+   "steady": 15,
+   "world": 0
   }
  },
- "active_preset": "aggressive_world",
+ "active_preset": "aggressive_steady",
  "exclude": [
-  "VEU"
+  "VEU",
+  "WORLD",
+  "HOOD"
  ],
  "sleeve_max_pct": {
   "crypto": 15,

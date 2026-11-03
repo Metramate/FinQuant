@@ -102,7 +102,6 @@
    "ITA",
    "NLR",
    "UFO",
-   "LLY",
    "HOOD",
    "GEV",
    "PICK",
@@ -111,7 +110,9 @@
   ],
   "Steady compounders": [
    "V",
-   "MA"
+   "MA",
+   "COST",
+   "LLY"
   ],
   "World fund": [
    "WORLD"
@@ -165,6 +166,11 @@
    "yahoo": "VEU",
    "asset_class": "etf",
    "theme": "International ex-US"
+  },
+  "COST": {
+   "yahoo": "COST",
+   "asset_class": "stock",
+   "theme": "Steady compounders"
   }
  }
 }

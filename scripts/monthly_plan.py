@@ -98,6 +98,7 @@ def sleeve_shares(values: dict, cash: float, groups: dict) -> dict:
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--monthly-eur", type=float, default=1000.0)
+    ap.add_argument("--monthly-usd", type=float, default=None, help="amount in USD instead (overrides --monthly-eur)")
     ap.add_argument("--max-buys", type=int, default=5)
     ap.add_argument("--min-buy-eur", type=float, default=60.0)
     ap.add_argument("--targets", default=str(TARGETS), help="targets JSON (default: optimised by construct.py)")
@@ -113,6 +114,8 @@ def main():
     df = load_holdings(pathlib.Path(a.holdings))
     df_ext = extended_holdings(df, targets)
     fx = eurusd()
+    if a.monthly_usd is not None:
+        a.monthly_eur = a.monthly_usd / fx
     values, price, cash, px = current_state(df_ext)
     book_usd = sum(values.values()) + cash
     book_eur = book_usd / fx

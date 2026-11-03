@@ -44,7 +44,7 @@ POLICY = json.loads((ROOT / "data" / "policy.json").read_text())
 TARGETS = json.loads((ROOT / "data" / "targets.json").read_text())
 YAHOO = {"BTC": "BTC-USD", "ETH": "ETH-USD", "UNI": "UNI7083-USD", "NEAR": "NEAR-USD", "QQQM": "QQQM", "SMH": "SMH", "NVDA": "NVDA", "SKHY": "SKHY",
          "QTUM": "QTUM", "VST": "VST", "ITA": "ITA", "NLR": "NLR", "UFO": "UFO", "LLY": "LLY", "HOOD": "HOOD", "GEV": "GEV", "PICK": "PICK",
-         "INDA": "INDA", "CRSP": "CRSP", "V": "V", "MA": "MA", "WORLD": "VT", "VEU": "VEU"}  # WORLD is priced with VT (all-world, USD) for history
+         "INDA": "INDA", "CRSP": "CRSP", "V": "V", "MA": "MA", "WORLD": "VT", "VEU": "VEU", "COST": "COST"}  # WORLD is priced with VT (all-world, USD) for history
 COST = {"crypto": 0.0025}  # one-way cost: crypto 25bp, everything else 10bp (assumptions)
 NAMES = [n for n in POLICY["sleeves"] if n not in POLICY.get("exclude", [])]
 

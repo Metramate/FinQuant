@@ -20,6 +20,7 @@ Start with `reports/latest/REPORT.md`; every script also runs alone.
 | `construct.py` + `data/policy.json` | **portfolio construction**: out-of-sample test of construction methods (equal weight, hand-set, FinQuant max-Sharpe/min-var, ERC, risk budgets) and the optimiser that writes `data/targets_optimised.json` (risk budgets by sleeve, Ledoit-Wolf covariance, caps, no-sell floors); `--preset aggressive|balanced|max_conviction` |
 | `monthly_plan.py` + `data/targets_optimised.json` (default; `data/targets.json` = my first hand-set targets, use `--targets`) | **monthly buy list**: new money goes to the (max 5) positions furthest under target, never sells; targets change at EUR 20k and 30k (turbines + mining, then India + gene editing); `--apply` writes buys to the CSV (backup kept), `--simulate 36 --report` shows the path and risk |
 | `picks.py` | screen candidate quirky picks / steady compounders against your book (data only) |
+| `steady_dial.py` | does a bigger steady share (staples + health) raise the chance of EUR 1M? (100-year data, goal ages 38/40) |
 | `my_prices.py` | shared Yahoo loader; extends young listings with `history_proxy` (SKHY <- `000660.KS`) |
 | `load_my_portfolio.py` | quick FinQuant summary (`--fetch`) |
 

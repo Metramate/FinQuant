@@ -5,24 +5,23 @@
    "name": "A",
    "from_eur": 0,
    "weights": {
-    "BTC": 10.9,
+    "BTC": 10.799999999999999,
     "ETH": 4.4,
-    "UNI": 1.2,
-    "NEAR": 1.1,
-    "QQQM": 10.3,
+    "UNI": 1.1,
+    "NEAR": 1.0,
+    "QQQM": 9.4,
     "SMH": 4.8,
-    "NVDA": 4.5,
-    "SKHY": 4.2,
-    "QTUM": 4.3,
-    "VST": 3.4,
+    "NVDA": 4.0,
+    "SKHY": 3.7,
+    "QTUM": 3.9,
+    "VST": 4.4,
     "ITA": 5.7,
-    "NLR": 4.6,
-    "UFO": 4.9,
-    "LLY": 5.7,
-    "HOOD": 2.2,
+    "NLR": 5.7,
+    "UFO": 5.7,
+    "LLY": 7.6,
     "V": 7.6,
     "MA": 7.6,
-    "WORLD": 7.6,
+    "COST": 7.6,
     "CASH": 5.0
    }
   },
@@ -30,26 +29,25 @@
    "name": "B (adds turbines + mining)",
    "from_eur": 20000,
    "weights": {
-    "BTC": 10.700000000000001,
-    "ETH": 4.3,
-    "UNI": 1.2,
-    "NEAR": 1.2,
-    "QQQM": 9.4,
-    "SMH": 4.4,
-    "NVDA": 4.3,
-    "SKHY": 3.9,
-    "QTUM": 4.0,
-    "VST": 2.4,
+    "BTC": 10.399999999999999,
+    "ETH": 4.0,
+    "UNI": 1.1,
+    "NEAR": 1.1,
+    "QQQM": 8.7,
+    "SMH": 3.9,
+    "NVDA": 3.8,
+    "SKHY": 3.5,
+    "QTUM": 3.6,
+    "VST": 2.8,
     "ITA": 5.7,
-    "NLR": 3.2,
-    "UFO": 3.4,
-    "LLY": 5.7,
-    "HOOD": 1.6,
-    "GEV": 2.6,
-    "PICK": 4.5,
-    "V": 7.4,
-    "MA": 7.5,
-    "WORLD": 7.6,
+    "NLR": 3.7,
+    "UFO": 4.0,
+    "LLY": 7.5,
+    "GEV": 3.0,
+    "PICK": 5.4,
+    "V": 7.6,
+    "MA": 7.6,
+    "COST": 7.6,
     "CASH": 5.0
    }
   },
@@ -57,28 +55,27 @@
    "name": "C (adds India + gene editing)",
    "from_eur": 30000,
    "weights": {
-    "BTC": 10.2,
-    "ETH": 4.1,
-    "UNI": 1.2,
-    "NEAR": 1.1,
-    "QQQM": 9.0,
-    "SMH": 4.2,
-    "NVDA": 4.1,
-    "SKHY": 3.8,
-    "QTUM": 3.9,
-    "VST": 1.9,
-    "ITA": 4.8,
-    "NLR": 2.5,
-    "UFO": 2.6,
-    "LLY": 5.7,
-    "HOOD": 1.2,
-    "GEV": 2.0,
-    "PICK": 3.4,
+    "BTC": 9.6,
+    "ETH": 3.8,
+    "UNI": 1.1,
+    "NEAR": 1.0,
+    "QQQM": 8.3,
+    "SMH": 3.8,
+    "NVDA": 3.7,
+    "SKHY": 3.4,
+    "QTUM": 3.5,
+    "VST": 2.1,
+    "ITA": 5.3,
+    "NLR": 2.7,
+    "UFO": 2.9,
+    "LLY": 6.9,
+    "GEV": 2.2,
+    "PICK": 3.9,
     "INDA": 5.7,
-    "CRSP": 2.1,
-    "V": 6.9,
-    "MA": 7.0,
-    "WORLD": 7.6,
+    "CRSP": 2.3,
+    "V": 7.6,
+    "MA": 7.6,
+    "COST": 7.6,
     "CASH": 5.0
    }
   }
@@ -102,8 +99,6 @@
    "ITA",
    "NLR",
    "UFO",
-   "LLY",
-   "HOOD",
    "GEV",
    "PICK",
    "INDA",
@@ -111,21 +106,15 @@
   ],
   "Steady compounders": [
    "V",
-   "MA"
-  ],
-  "World fund": [
-   "WORLD"
+   "MA",
+   "COST",
+   "LLY"
   ],
   "Cash": [
    "CASH"
   ]
  },
  "new_positions": {
-  "HOOD": {
-   "yahoo": "HOOD",
-   "asset_class": "stock",
-   "theme": "Fintech"
-  },
   "V": {
    "yahoo": "V",
    "asset_class": "stock",
@@ -135,11 +124,6 @@
    "yahoo": "MA",
    "asset_class": "stock",
    "theme": "Steady compounders"
-  },
-  "WORLD": {
-   "yahoo": "VT",
-   "asset_class": "etf",
-   "theme": "World fund (VT)"
   },
   "GEV": {
    "yahoo": "GEV",
@@ -160,6 +144,11 @@
    "yahoo": "CRSP",
    "asset_class": "stock",
    "theme": "Gene editing"
+  },
+  "COST": {
+   "yahoo": "COST",
+   "asset_class": "stock",
+   "theme": "Steady compounders"
   }
  }
 }
