@@ -27,13 +27,13 @@ Written down so decisions are made by rules, not by mood. Numbers come from `scr
 
 | Method | CAGR | Vol | Sharpe | Worst drop |
 |---|---|---|---|---|
-| Hand-set weights (my first plan) | 26.2% | 24.8% | 0.93 | -36.6% |
-| **Risk budgets + caps (used)** | 26.7% | 22.6% | 1.05 | -30.4% |
-| Equal risk contribution | 24.0% | 20.1% | 1.05 | -23.9% |
-| FinQuant max-Sharpe (cap 15%) | 27.9% | 20.2% | 1.23 | -23.1% |
-| Equal weight | 25.7% | 26.3% | 0.86 | -33.1% |
+| Hand-set weights (my first plan) | 27.4% | 25.6% | 0.95 | -37.3% |
+| **Risk budgets + caps (used)** | 27.0% | 22.7% | 1.06 | -30.3% |
+| Equal risk contribution | 25.0% | 20.4% | 1.08 | -23.7% |
+| FinQuant max-Sharpe (cap 15%) | 28.3% | 20.5% | 1.23 | -24.2% |
+| Equal weight | 26.5% | 27.0% | 0.87 | -33.5% |
 
-- Max-Sharpe scores best but is **not used**: the 22 names were picked with hindsight (winners), which flatters any method that chases recent winners, it trades twice as much (109% a year), and in my 100-year test optimisers lost to simple rules. Risk-based construction improved on my hand-set weights in every lookback window tested (504, 756, 1008 days).
+- Max-Sharpe scores best but is **not used**: the 22 names were picked with hindsight (winners), which flatters any method that chases recent winners, it trades about twice as much (99% a year), and in my 100-year test optimisers lost to simple rules. Risk-based construction kept about the same return as my hand-set weights with clearly lower risk (volatility -2.9 pts, worst drop -7 pts); an earlier run showed the same pattern for lookbacks of 504, 756 and 1008 days.
 - Limits: one AI/crypto boom plus the 2022 bear; 22 hindsight-picked names; covariance is estimated; risk budgets are my policy choices.
 
 ## 5. Implementation rules

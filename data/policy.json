@@ -22,7 +22,8 @@
   "CRSP": "other_thesis",
   "V": "steady",
   "MA": "steady",
-  "WORLD": "world"
+  "WORLD": "world",
+  "VEU": "world"
  },
  "risk_budget_pct": {
   "crypto": 33,
@@ -79,18 +80,26 @@
    "other_thesis": 28,
    "steady": 3,
    "world": 1
+  },
+  "aggressive_plus_intl": {
+   "crypto": 31,
+   "ai_tech": 30,
+   "other_thesis": 29,
+   "steady": 5,
+   "world": 5
   }
  },
  "active_preset": "aggressive",
  "exclude": [
-  "WORLD"
+  "WORLD",
+  "VEU"
  ],
  "sleeve_max_pct": {
   "crypto": 15,
   "ai_tech": 12,
   "other_thesis": 6,
   "steady": 8,
-  "world": 0
+  "world": 8
  },
  "_note_caps": "sleeve_max_pct = max % of invested money in ONE position of that sleeve (a no-sell floor can override it). 'exclude' removes positions from the optimiser."
 }

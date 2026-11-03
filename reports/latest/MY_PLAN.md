@@ -59,7 +59,7 @@ Two thirds of month 1 goes to Visa and Mastercard because they are the biggest h
 After 3 years (constant prices): crypto 19% (vs 38% pro rata), AI/semis/tech 28.5% (vs 41%), other thesis 35%, Visa+Mastercard 15.6%, 21 positions.
 
 ## 5. What the optimisation changed vs my first plan
-- Out-of-sample (2021-2026): CAGR 26.7% vs 26.2%, volatility 22.6% vs 24.8%, worst drop -30% vs -37%.
+- Out-of-sample (2021-2026): about the same return (27.0% vs 27.4% a year) with lower risk: volatility 22.7% vs 25.6%, worst drop -30% vs -37%.
 - Target mixes: volatility 24.7% / 24.2% / 23.0% (stages A/B/C) vs 30.3% today; worst drop about -22 to -24% vs -30%; crypto share of risk 30-32% vs 52% today.
 - Sizes moved: BTC 12.5% (was 17), Visa/Mastercard 7.6% each (was 4), India 5.7% (was 3), HOOD 2.5% (was 3).
 
