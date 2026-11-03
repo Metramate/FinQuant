@@ -28,8 +28,8 @@ New positions: **Visa 7.6%, Mastercard 7.6%, Berkshire 7.6%**. Steady sleeve (Vi
 | Buy | USD | EUR | Shares |
 |---|---|---|---|
 | Visa (V) | 275 | 245 | 0.6506 |
-| Mastercard (MA) | 275 | 245 | 0.4231 |
-| Berkshire (BRK-B) | 275 | 245 | 0.2688 |
+| Mastercard (MA) | 275 | 245 | 0.4232 |
+| Berkshire (BRK-B) | 275 | 245 | 0.4915 |
 | Eli Lilly (LLY) | 139 | 124 | 0.0978 |
 | UFO | 137 | 123 | 3.3797 |
 Total about $1,100. BTC, ETH, QQQM, SMH get nothing: they are over target.
@@ -38,17 +38,17 @@ Total about $1,100. BTC, ETH, QQQM, SMH get nothing: they are over target.
 | Month | Buys (EUR) |
 |---|---|
 | 1 | V 245, MA 245, BRK-B 245, LLY 124, UFO 123 |
-| 2 | V 237, MA 237, BRK-B 237, NLR 138, LLY 134 |
+| 2 | V 236, MA 236, BRK-B 236, NLR 139, LLY 134 |
 | 3 | V 218, MA 218, BRK-B 218, UFO 184, ITA 145 |
 | 4 | LLY 219, NLR 200, V 188, MA 188, BRK-B 188 |
-| 5 | UFO 239, ITA 207, QTUM 205, LLY 174, V 157 |
-| 6 | MA 243, BRK-B 243, NLR 217, VST 159, UFO 119 |
-| 7 | LLY 228, V 222, ITA 199, NVDA 175, QTUM 159 |
-| 8 | QQQM 217, MA 216, BRK-B 216, NLR 169, SKHY 164 |
-| 9 | UFO 255, VST 213, V 188, LLY 188, ITA 139 |
-| 10 | QQQM 255, MA 203, BRK-B 203, NVDA 162, QTUM 159 |
-| 11 | NLR 272, LLY 189, V 189, SKHY 172, BTC 160 |
-| 12 | PICK 584, GEV 325, ITA 73 |
+| 5 | UFO 239, ITA 207, QTUM 206, LLY 173, V 157 |
+| 6 | MA 243, BRK-B 243, NLR 218, VST 160, UFO 119 |
+| 7 | LLY 227, V 221, ITA 198, NVDA 178, QTUM 159 |
+| 8 | QQQM 231, MA 211, BRK-B 211, NLR 165, SKHY 164 |
+| 9 | UFO 254, VST 213, V 188, LLY 188, ITA 139 |
+| 10 | QQQM 258, MA 205, BRK-B 205, NVDA 159, QTUM 156 |
+| 11 | NLR 280, LLY 191, V 190, SKHY 178, ITA 143 |
+| 12 | PICK 632, GEV 351 |
 
 ## 4. As the book grows
 | Book reaches | New positions | When at EUR 1,000/mo |
