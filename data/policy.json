@@ -24,7 +24,8 @@
   "MA": "steady",
   "WORLD": "world",
   "VEU": "world",
-  "COST": "steady"
+  "COST": "steady",
+  "BRK-B": "steady"
  },
  "risk_budget_pct": {
   "crypto": 30,
@@ -108,7 +109,8 @@
  "exclude": [
   "VEU",
   "WORLD",
-  "HOOD"
+  "HOOD",
+  "COST"
  ],
  "sleeve_max_pct": {
   "crypto": 15,

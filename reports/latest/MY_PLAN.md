@@ -22,14 +22,14 @@ Monthly: `python scripts/monthly_plan.py --monthly-usd 1100` (or `--monthly-eur 
 | UFO | 2.0 | 5.7 | under |
 | NEAR | 1.7 | 1.0 | over |
 | Cash (USDT) | 9.2 | dry powder | untouched |
-New positions: **Visa 7.6%, Mastercard 7.6%, Costco 7.6%**. Steady sleeve (Visa, Mastercard, Costco, Eli Lilly) = about 30% of the book.
+New positions: **Visa 7.6%, Mastercard 7.6%, Berkshire 7.6%**. Steady sleeve (Visa, Mastercard, Berkshire, Eli Lilly) = about 30% of the book.
 
 ## 2. Buy now with exactly $1,100
 | Buy | USD | EUR | Shares |
 |---|---|---|---|
 | Visa (V) | 275 | 245 | 0.6506 |
 | Mastercard (MA) | 275 | 245 | 0.4231 |
-| Costco (COST) | 275 | 245 | 0.2688 |
+| Berkshire (BRK-B) | 275 | 245 | 0.2688 |
 | Eli Lilly (LLY) | 139 | 124 | 0.0978 |
 | UFO | 137 | 123 | 3.3797 |
 Total about $1,100. BTC, ETH, QQQM, SMH get nothing: they are over target.
@@ -37,16 +37,16 @@ Total about $1,100. BTC, ETH, QQQM, SMH get nothing: they are over target.
 ## 3. The next 12 months at about EUR 1,000/mo (constant prices: rerun the tool each month)
 | Month | Buys (EUR) |
 |---|---|
-| 1 | V 245, MA 245, COST 245, LLY 124, UFO 123 |
-| 2 | V 237, MA 237, COST 237, NLR 138, LLY 134 |
-| 3 | V 218, MA 218, COST 218, UFO 184, ITA 145 |
-| 4 | LLY 219, NLR 200, V 188, MA 188, COST 188 |
+| 1 | V 245, MA 245, BRK-B 245, LLY 124, UFO 123 |
+| 2 | V 237, MA 237, BRK-B 237, NLR 138, LLY 134 |
+| 3 | V 218, MA 218, BRK-B 218, UFO 184, ITA 145 |
+| 4 | LLY 219, NLR 200, V 188, MA 188, BRK-B 188 |
 | 5 | UFO 239, ITA 207, QTUM 205, LLY 174, V 157 |
-| 6 | MA 243, COST 243, NLR 217, VST 159, UFO 119 |
+| 6 | MA 243, BRK-B 243, NLR 217, VST 159, UFO 119 |
 | 7 | LLY 228, V 222, ITA 199, NVDA 175, QTUM 159 |
-| 8 | QQQM 217, MA 216, COST 216, NLR 169, SKHY 164 |
+| 8 | QQQM 217, MA 216, BRK-B 216, NLR 169, SKHY 164 |
 | 9 | UFO 255, VST 213, V 188, LLY 188, ITA 139 |
-| 10 | QQQM 255, MA 203, COST 203, NVDA 162, QTUM 159 |
+| 10 | QQQM 255, MA 203, BRK-B 203, NVDA 162, QTUM 159 |
 | 11 | NLR 272, LLY 189, V 189, SKHY 172, BTC 160 |
 | 12 | PICK 584, GEV 325, ITA 73 |
 

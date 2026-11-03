@@ -5,11 +5,11 @@
    "name": "A",
    "from_eur": 0,
    "weights": {
-    "BTC": 10.799999999999999,
+    "BTC": 10.7,
     "ETH": 4.4,
     "UNI": 1.1,
     "NEAR": 1.0,
-    "QQQM": 9.4,
+    "QQQM": 9.5,
     "SMH": 4.8,
     "NVDA": 4.0,
     "SKHY": 3.7,
@@ -21,7 +21,7 @@
     "LLY": 7.6,
     "V": 7.6,
     "MA": 7.6,
-    "COST": 7.6,
+    "BRK-B": 7.6,
     "CASH": 5.0
    }
   },
@@ -29,7 +29,7 @@
    "name": "B (adds turbines + mining)",
    "from_eur": 20000,
    "weights": {
-    "BTC": 10.399999999999999,
+    "BTC": 10.3,
     "ETH": 4.0,
     "UNI": 1.1,
     "NEAR": 1.1,
@@ -42,12 +42,12 @@
     "ITA": 5.7,
     "NLR": 3.7,
     "UFO": 4.0,
-    "LLY": 7.5,
+    "LLY": 7.6,
     "GEV": 3.0,
     "PICK": 5.4,
     "V": 7.6,
     "MA": 7.6,
-    "COST": 7.6,
+    "BRK-B": 7.6,
     "CASH": 5.0
    }
   },
@@ -55,7 +55,7 @@
    "name": "C (adds India + gene editing)",
    "from_eur": 30000,
    "weights": {
-    "BTC": 9.6,
+    "BTC": 9.799999999999999,
     "ETH": 3.8,
     "UNI": 1.1,
     "NEAR": 1.0,
@@ -65,17 +65,17 @@
     "SKHY": 3.4,
     "QTUM": 3.5,
     "VST": 2.1,
-    "ITA": 5.3,
+    "ITA": 5.2,
     "NLR": 2.7,
-    "UFO": 2.9,
-    "LLY": 6.9,
+    "UFO": 2.8,
+    "LLY": 7.0,
     "GEV": 2.2,
-    "PICK": 3.9,
+    "PICK": 3.8,
     "INDA": 5.7,
     "CRSP": 2.3,
     "V": 7.6,
     "MA": 7.6,
-    "COST": 7.6,
+    "BRK-B": 7.6,
     "CASH": 5.0
    }
   }
@@ -107,7 +107,7 @@
   "Steady compounders": [
    "V",
    "MA",
-   "COST",
+   "BRK-B",
    "LLY"
   ],
   "Cash": [
@@ -145,8 +145,8 @@
    "asset_class": "stock",
    "theme": "Gene editing"
   },
-  "COST": {
-   "yahoo": "COST",
+  "BRK-B": {
+   "yahoo": "BRK-B",
    "asset_class": "stock",
    "theme": "Steady compounders"
   }

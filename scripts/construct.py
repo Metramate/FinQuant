@@ -44,7 +44,7 @@ POLICY = json.loads((ROOT / "data" / "policy.json").read_text())
 TARGETS = json.loads((ROOT / "data" / "targets.json").read_text())
 YAHOO = {"BTC": "BTC-USD", "ETH": "ETH-USD", "UNI": "UNI7083-USD", "NEAR": "NEAR-USD", "QQQM": "QQQM", "SMH": "SMH", "NVDA": "NVDA", "SKHY": "SKHY",
          "QTUM": "QTUM", "VST": "VST", "ITA": "ITA", "NLR": "NLR", "UFO": "UFO", "LLY": "LLY", "HOOD": "HOOD", "GEV": "GEV", "PICK": "PICK",
-         "INDA": "INDA", "CRSP": "CRSP", "V": "V", "MA": "MA", "WORLD": "VT", "VEU": "VEU", "COST": "COST"}  # WORLD is priced with VT (all-world, USD) for history
+         "INDA": "INDA", "CRSP": "CRSP", "V": "V", "MA": "MA", "WORLD": "VT", "VEU": "VEU", "COST": "COST", "BRK-B": "BRK-B"}  # WORLD is priced with VT (all-world, USD) for history
 COST = {"crypto": 0.0025}  # one-way cost: crypto 25bp, everything else 10bp (assumptions)
 NAMES = [n for n in POLICY["sleeves"] if n not in POLICY.get("exclude", [])]
 
@@ -265,13 +265,14 @@ def main():
     ap.add_argument("--build", action="store_true")
     ap.add_argument("--preset", choices=list(POLICY.get("presets", {})), help="risk-budget preset from data/policy.json (default: active_preset)")
     ap.add_argument("--include", nargs="*", default=[], help="un-exclude positions listed in policy 'exclude' (e.g. VEU)")
+    ap.add_argument("--exclude", nargs="*", default=[], help="additionally exclude positions for this run (e.g. COST)")
     ap.add_argument("--no-write", action="store_true", help="do not write targets_optimised.json / construction.md")
     ap.add_argument("--out", default=str(ROOT / "reports" / "latest"))
     a = ap.parse_args()
     out = pathlib.Path(a.out)
     POLICY["risk_budget_pct"] = POLICY["presets"][a.preset or POLICY["active_preset"]]
     global NAMES
-    POLICY["exclude"] = [x for x in POLICY.get("exclude", []) if x not in a.include]
+    POLICY["exclude"] = sorted(set([x for x in POLICY.get("exclude", []) if x not in a.include] + a.exclude))
     NAMES = [n for n in POLICY["sleeves"] if n not in POLICY["exclude"]]
     P = panel()[NAMES]
     md = ["# Portfolio construction", ""]

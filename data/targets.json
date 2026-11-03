@@ -111,7 +111,7 @@
   "Steady compounders": [
    "V",
    "MA",
-   "COST",
+   "BRK-B",
    "LLY"
   ],
   "World fund": [
@@ -169,6 +169,11 @@
   },
   "COST": {
    "yahoo": "COST",
+   "asset_class": "stock",
+   "theme": "Steady compounders"
+  },
+  "BRK-B": {
+   "yahoo": "BRK-B",
    "asset_class": "stock",
    "theme": "Steady compounders"
   }
