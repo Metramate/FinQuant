@@ -1,0 +1,38 @@
+{
+  "_comment": "Target weights (% of the WHOLE book incl. cash) by book size in EUR. These are my proposal, not facts: edit freely. Rules: crypto shrinks 26 -> 20% as the book grows, AI/semis/tech 32 -> 27%, every position >= 1%, no selling needed (new money dilutes the overweights).",
+  "stages": [
+    {"name": "A", "from_eur": 0, "weights": {
+      "BTC": 17, "ETH": 6, "UNI": 1.5, "NEAR": 1.5,
+      "QQQM": 12, "SMH": 7, "NVDA": 5, "SKHY": 5, "QTUM": 3,
+      "VST": 5, "ITA": 4, "NLR": 3, "UFO": 2, "LLY": 4, "HOOD": 3,
+      "V": 4, "MA": 4, "WORLD": 8, "CASH": 5}},
+    {"name": "B (adds turbines + mining)", "from_eur": 20000, "weights": {
+      "BTC": 14.5, "ETH": 5, "UNI": 1.5, "NEAR": 1,
+      "QQQM": 10.5, "SMH": 6.5, "NVDA": 4.5, "SKHY": 4.5, "QTUM": 3,
+      "VST": 4.5, "ITA": 4, "NLR": 3, "UFO": 2, "LLY": 4, "HOOD": 3, "GEV": 3, "PICK": 3,
+      "V": 5, "MA": 5, "WORLD": 7.5, "CASH": 5}},
+    {"name": "C (adds India + gene editing)", "from_eur": 30000, "weights": {
+      "BTC": 13, "ETH": 4.5, "UNI": 1.5, "NEAR": 1,
+      "QQQM": 9.5, "SMH": 6, "NVDA": 4.5, "SKHY": 4, "QTUM": 3,
+      "VST": 4, "ITA": 4, "NLR": 3, "UFO": 2, "LLY": 4, "HOOD": 3, "GEV": 3, "PICK": 3, "INDA": 3, "CRSP": 2,
+      "V": 5.5, "MA": 5.5, "WORLD": 6, "CASH": 5}}
+  ],
+  "groups": {
+    "Crypto": ["BTC", "ETH", "UNI", "NEAR"],
+    "AI / semis / tech": ["QQQM", "SMH", "NVDA", "SKHY", "QTUM"],
+    "Other thesis (defense, nuclear, space, power, health, fintech, new themes)": ["VST", "ITA", "NLR", "UFO", "LLY", "HOOD", "GEV", "PICK", "INDA", "CRSP"],
+    "Steady compounders": ["V", "MA"],
+    "World fund": ["WORLD"],
+    "Cash": ["CASH"]
+  },
+  "new_positions": {
+    "HOOD": {"yahoo": "HOOD", "asset_class": "stock", "theme": "Fintech"},
+    "V": {"yahoo": "V", "asset_class": "stock", "theme": "Steady compounders"},
+    "MA": {"yahoo": "MA", "asset_class": "stock", "theme": "Steady compounders"},
+    "WORLD": {"yahoo": "VWCE.DE", "asset_class": "etf", "theme": "World fund"},
+    "GEV": {"yahoo": "GEV", "asset_class": "stock", "theme": "Power / grid (turbines)"},
+    "PICK": {"yahoo": "PICK", "asset_class": "etf", "theme": "Mining"},
+    "INDA": {"yahoo": "INDA", "asset_class": "etf", "theme": "India"},
+    "CRSP": {"yahoo": "CRSP", "asset_class": "stock", "theme": "Gene editing"}
+  }
+}

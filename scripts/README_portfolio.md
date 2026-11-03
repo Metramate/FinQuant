@@ -17,6 +17,8 @@ Start with `reports/latest/REPORT.md`; every script also runs alone.
 | `compounders.py` | glass cannon vs steady compounders (V, MA, ...): facts, rolling 4-year holds, EUR 1,000 simulation, 'what you must believe' heatmap (`reports/latest/compounders/`) |
 | `horizon.py` | **goal age 35-40 research (current)**: EUR 1M (today's money) from job-based savings plans, 100 years of data, bootstrap, walk-forward, tech dial, income link (`reports/latest/horizon/`) |
 | `longterm.py` + `longterm_data.py` | (superseded: assumed a 37-year horizon) long-horizon savings research on 100 years of US data (Ken French + Shiller): where EUR 1M comes from, 37-year journeys for ~12 strategies, walk-forward out-of-sample tests, era split, income-vs-tech-cycle test, suggested split (`reports/latest/longterm/`) |
+| `monthly_plan.py` + `data/targets.json` | **monthly buy list**: new money goes to the (max 5) positions furthest under target, never sells; targets change at EUR 20k and 30k (turbines + mining, then India + gene editing); `--apply` writes buys to the CSV (backup kept), `--simulate 36 --report` shows the path and risk |
+| `picks.py` | screen candidate quirky picks / steady compounders against your book (data only) |
 | `my_prices.py` | shared Yahoo loader; extends young listings with `history_proxy` (SKHY <- `000660.KS`) |
 | `load_my_portfolio.py` | quick FinQuant summary (`--fetch`) |
 

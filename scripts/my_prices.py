@@ -83,8 +83,13 @@ def _fetch_prices(holdings: pd.DataFrame, start: str = "2024-01-01") -> pd.DataF
             raise ValueError(f"No FX mapping for proxy {proxy!r}; add its suffix to FX_BY_SUFFIX")
 
     extra = sorted(set(proxies.values()) | set(fx.values()))
+    eur_listed = [t for t in tickers if t.endswith(".DE")]  # EUR-listed ETFs (e.g. VWCE.DE): convert to USD like everything else
+    if eur_listed:
+        extra = sorted(set(extra) | {"EURUSD=X"})
     px = _download(tickers + extra, start)
     out = px[tickers].copy()
+    for t in eur_listed:
+        out[t] = out[t] * px["EURUSD=X"].ffill()
     for tkr, proxy in proxies.items():
         usd = px[proxy] / px[fx[proxy]].ffill() if proxy in fx else px[proxy]
         before = out[tkr].dropna().shape[0]
